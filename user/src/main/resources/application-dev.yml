@@ -42,9 +42,10 @@ logging:
   config: classpath:Logback-spring.xml
   level:
     com.huiaong.common.client.UserClient: DEBUG
+    com.huiaong.common.aspect: DEBUG
 
 license:
   path: /**
 
 un-license:
-  path: /user/login, /user/info, /user/logout
+  path: /user/login, /user/info, /error

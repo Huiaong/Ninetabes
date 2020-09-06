@@ -93,8 +93,8 @@ public class LoginHelper {
         tokenBucket.set(JSONUtil.toJsonStr(loginUser), UserConstant.EXPIRE_TIME, TimeUnit.MILLISECONDS);
     }
 
-    public Response<LoginUser> getInfo() {
-        RBucket<String> tokenBucket = redissonClient.getBucket(UserConstant.SESSION.concat(String.valueOf(UserUtil.getUserId())));
+    public Response<LoginUser> getInfo(String token) {
+        RBucket<String> tokenBucket = redissonClient.getBucket(UserConstant.SESSION.concat(token.split("_")[0]));
         String loginUserJson = tokenBucket.get();
         LoginUser loginUser = JSONUtil.toBean(loginUserJson, LoginUser.class);
         return Response.ok(loginUser);

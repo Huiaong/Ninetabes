@@ -4,14 +4,9 @@ import com.huiaong.common.dto.LoginUser;
 
 public final class UserUtil {
     private static final ThreadLocal<LoginUser> user = new ThreadLocal<>();
-    private static final ThreadLocal<String> tokenStore = new ThreadLocal<>();
 
     public static void putCurrentUser(LoginUser baseUser) {
         user.set(baseUser);
-    }
-
-    public static void putCurrentToken(String token) {
-        tokenStore.set(token);
     }
 
     public static LoginUser getCurrentUser() {
@@ -24,11 +19,11 @@ public final class UserUtil {
 
     public static Long getUserId() {
         LoginUser loginUser = user.get();
-        return null != loginUser ? loginUser.getId() : Long.valueOf(tokenStore.get().split("_")[0]);
+        return null != loginUser ? loginUser.getId() : null;
     }
 
     public static String getToken() {
         LoginUser loginUser = user.get();
-        return null != loginUser ? loginUser.getToken() : tokenStore.get();
+        return null != loginUser ? loginUser.getToken() : null;
     }
 }

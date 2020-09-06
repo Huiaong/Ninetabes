@@ -30,8 +30,8 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/info")
-    public Response<LoginUser> info() {
-        return loginHelper.getInfo();
+    public Response<LoginUser> info(@RequestParam String token) {
+        return loginHelper.getInfo(token);
     }
 
     @ResponseBody

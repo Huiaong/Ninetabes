@@ -26,9 +26,7 @@ public class LoginUserInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
 
-        UserUtil.putCurrentToken(token);
-
-        Response<LoginUser> loginResp = userClient.info();
+        Response<LoginUser> loginResp = userClient.info(token);
         if (!loginResp.isSuccess()) {
             log.error("token:{} has been expired", token);
             return false;
