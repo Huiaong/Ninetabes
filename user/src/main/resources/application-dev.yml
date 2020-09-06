@@ -1,0 +1,50 @@
+server:
+  port: 6001
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}?useUnicode=true&characterEncoding=UTF8&useSSL=false
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    primary:
+      max-idle: 10
+      max-wait: 10000
+      min-idle: 5
+      initial-size: 5
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 18800
+
+  application:
+    name: ninetabes-user
+  main:
+    # Spring Boot 2.1 需要设定
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      # Nacos 服务发现与注册配置
+      discovery:
+        server-addr: ${NACOS_HOST}:${NACOS_PORT}
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: >
+    com.huiaong.common.model.user,
+    com.huiaong.common.criteria.user
+
+logging:
+  config: classpath:Logback-spring.xml
+  level:
+    com.huiaong.common.client.UserClient: DEBUG
+
+license:
+  path: /**
+
+un-license:
+  path: /user/login, /user/info, /user/logout

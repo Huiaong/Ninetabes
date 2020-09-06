@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huiaong.user.dao.RoleDao">
+    <resultMap id="RoleMap" type="Role">
+        <id column="id" property="id"/>
+        <result column="create_id" property="createId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_id" property="updatedId"/>
+        <result column="updated_at" property="updatedAt"/>
+
+        <result column="name" property="name"/>
+    </resultMap>
+    
+    <sql id="tb">
+        `role`
+    </sql>
+
+    <sql id="cols_exclude_id">
+        `name`,
+        create_id, created_at, updated_id, updated_at
+    </sql>
+
+    <sql id="cols">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+
+    <sql id="criteria">
+        del_flag = 0
+        <if test="id != null">and id = #{id}</if>
+
+        <if test="name != null">and `name` = #{name}</if>
+    </sql>
+
+    <sql id="values">
+        #{name},
+        #{createId}, now(), #{updatedId}, now()
+    </sql>
+
+    <select id="findById" parameterType="long" resultMap="RoleMap">
+        select
+        <include refid="cols"/>
+        from
+        <include refid="tb"/>
+        where id = #{id} and del_flag = 0
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="RoleMap">
+        SELECT
+        <include refid="cols"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findByCriteria" parameterType="RoleCriteria" resultMap="RoleMap">
+        select
+        <include refid="cols"/>
+        from
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+</mapper>
