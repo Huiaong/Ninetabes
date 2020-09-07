@@ -43,6 +43,7 @@ logging:
   level:
     com.huiaong.common.client.UserClient: DEBUG
     com.huiaong.common.aspect: DEBUG
+    com.alibaba.nacos.client.naming: WARN
 
 license:
   path: /**
